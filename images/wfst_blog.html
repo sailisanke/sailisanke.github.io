@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="��Ȩ����״̬�� WFST �����Ȩ����״̬����Ȩ����״̬����� WFST (Weighted Finite-State Transducer)���ڽ��� WFST ֮ǰ��������Ҫ�ȼ򵥽���һ�������⼸��������Finite-State Acceptor (FSA)��Weighted Finite-State Acceptor (WFSA)�">
+<meta property="og:type" content="website">
+<meta property="og:title" content="YJ&#39;s BLOG">
+<meta property="og:url" content="http://yoursite.com/images/wfst_blog.html">
+<meta property="og:site_name" content="YJ&#39;s BLOG">
+<meta property="og:description" content="��Ȩ����״̬�� WFST �����Ȩ����״̬����Ȩ����״̬����� WFST (Weighted Finite-State Transducer)���ڽ��� WFST ֮ǰ��������Ҫ�ȼ򵥽���һ�������⼸��������Finite-State Acceptor (FSA)��Weighted Finite-State Acceptor (WFSA)�">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_all.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_8_element.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_semir.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_semir1.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_semir2.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_compose.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_base.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_union.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_union.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_determinization.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_wp.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_minimazation.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_rmeps.PNG">
+<meta property="og:updated_time" content="2018-07-14T10:12:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="YJ&#39;s BLOG">
+<meta name="twitter:description" content="��Ȩ����״̬�� WFST �����Ȩ����״̬����Ȩ����״̬����� WFST (Weighted Finite-State Transducer)���ڽ��� WFST ֮ǰ��������Ҫ�ȼ򵥽���һ�������⼸��������Finite-State Acceptor (FSA)��Weighted Finite-State Acceptor (WFSA)�">
+<meta name="twitter:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_all.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/images/wfst_blog.html"/>
+
+
+
+
+
+  <title> | YJ's BLOG</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">YJ's BLOG</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <h1 id="��E����״̬��-WFST-���"><a href="#��E����״̬��-WFST-���" class="headerlink" title="��Ȩ����״̬�� WFST ���"></a>��Ȩ����״̬�� WFST ���</h1><h2 id="��E����״̬��"><a href="#��E����״̬��" class="headerlink" title="��Ȩ����״̬��"></a>��Ȩ����״̬��</h2><p>��Ȩ����״̬����� WFST (Weighted Finite-State Transducer)���ڽ��� WFST ֮ǰ��������Ҫ�ȼ򵥽���һ�������⼸��������Finite-State Acceptor (FSA)��Weighted Finite-State Acceptor (WFSA)��Finite-State Transducer (FST)��<br>���Ƕ�������ͼ����ͬ���ǽڵ�֮��ı��ϴ��ڵ�Ԫ�ز�һ��������ͼ��ʾ��FSA �ı��Ͻ���ֻ�н���Ԫ�أ�Ҳ�������룬WFSA ��֮��ȱ��϶���һ��Ȩ��ϵ����FST ����� FSA ���������뻹��������� WFST ��Ƚ��������ڱ�������������Լ���Ӧ��ת��Ȩ�ء�<br><img src="file:///C:/Users/h00423957/Desktop/blog/wfst_all.PNG" alt="Alt text" title="WFST����Դ"><br>������ FSA ���������ж�һ�������Ƿ�����գ������������е��﷨�Ƿ������ͼ (a) ������ <em>acd</em> ��һ�����Ա����ܵ����У� �� <em>ace</em> ���ǡ�WFSA ���ڶ���һ��Ȩ��ϵ�����������������۸��ֽ�����������ʧ��С�����У��� (c) ��<em>ace</em>�Ϳ�����Ϊ���ܹ�<br>�����յ�������������ʧ��С�����У���ʧΪ2.2��FST ����������������������Խ����Ӧ�Ϸ�����������ʲô���� (b) ������ <em>accd</em> ��Ӧ�����Ϊ <em>zyxw</em>��WSFT �������ڶԸ��������ҵ�����ѵ������</p>
+<p> һ�������� WFST �ɰ˸�Ԫ����ɣ����룬�����״̬����ʼ״̬������״̬��ת�ƹ�ϵ����ʼȨ�أ�����Ȩ�ء���ͼd�еĸ���Ԫ��������ʾ��<br> <img src="file:///C:/Users/h00423957/Desktop/blog/wfst_8_element.PNG" alt="Alt text" title="WFST���Ԫ��"></p>
+<h2 id="WFST-�뻷����"><a href="#WFST-�뻷����" class="headerlink" title="WFST �뻷����"></a>WFST �뻷����</h2><p> WFST �ǻ��ڰ뻷���۵ģ�һ���뻷�����ṹ���Ա�����Ϊ��<br> <img src="file:///C:/Users/h00423957/Desktop/blog/wfst_semir.PNG" alt="Alt text" title="WFST�뻷����"><br> ����Ҫ����Ԫ�ؼ���K�����ֻ��������Լ���������Ԫ�أ���Ҫ�������¶�������ʵ������ѧ�Ĵ����ǳ��񣬼ӷ����˷����ǻ�����������0��1������������Ԫ�أ���Ҫ����Ķ������ͬ�ӷ��˷��Ľ���ɽ����ɵ�<br> <img src="file:///C:/Users/h00423957/Desktop/blog/wfst_semir1.PNG" alt="Alt text" title="WFST�뻷����"><br> �뻷�е�Ԫ�ؿ����в�ͬ�Ķ��壬������ʶ������ͨ��ʹ�õ���log�뻷����Ϊ�����˷�ת���˼ӷ��������������ڼ���������㡣<br> <img src="file:///C:/Users/h00423957/Desktop/blog/wfst_semir2.PNG" alt="Alt text" title="WFST�뻷����"></p>
+<h2 id="WFST-��������"><a href="#WFST-��������" class="headerlink" title="WFST ��������"></a>WFST ��������</h2><p> WFST ��ʵ��Ŀǰ�Ƚϳ������� openfst���������еĲ����Ͷ����Ի��� openfst �����ʵ��</p>
+<h3 id="Compose����"><a href="#Compose����" class="headerlink" title="Compose����"></a>Compose����</h3><p> Compose������������ʶ������Ƚ���Ҫ�Ĳ�������������ͼHCLG(��������н���)�����϶��ǻ����������չ���ģ������Խ���ͬ�㼶�� WFST ͼ��ϵ�һ��Ҳ���ǽ�ǰһ�� WFST ��������һ�� WFST ���������ϲ���<br> ����ǰһ�� WFST ����һ�� A ӳ�䵽 B �ıߣ���һ���д���һ���� B ӳ�䵽 C �ıߣ���ô�ϲ�֮��ͻ����һ���� A ӳ�䵽 C �ıߣ�Ȩ�ص����㰴�뻷�еĳ˷����в���������ֻ�ǽ����˱Ƚϻ�����һ�� compose ��ʽ��<br> ��ǰһ�� WFST ��������ߺ�һ�� WFST ���������epsʱ�������Ƚϸ��ӣ����ﲻ��һ��չ����<br> compose����֮��Ϳ����γ�һ������ͼ��ɴ� A �� C ��ӳ�䡣��ͼ����һ��compose�����ӣ��˴�������õ���Probability�뻷��<br> <img src="file:///C:/Users/h00423957/Desktop/blog/wfst_compose.PNG" alt="Alt text" title="WFSTcompose����"><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fstcompose a.fst b.fst out.fst</span><br></pre></td></tr></table></figure></p>
+<h3 id="Union-����"><a href="#Union-����" class="headerlink" title="Union ����"></a>Union ����</h3><p>Union �������ڽ���� WFST ������һ�� WFST������ͼ��ʾ���������������ʶ������ʵ��һ���Ƚ����õĲ��������統���ڶ������ͼ WFST�����ǿ�������Բ�ͬ�ĳ�����������ʹ�õ�ʱ�����ǿ�����Ҫ�������ء�������һ�����ֵ�Ӧ���У�<br>������������Ҫʹ�û����������Ϲ����� WFST�������û�Ҳ���ܻ�˵һЩ�����Ļ������ʱ�����ǿ������� union ��������������ͼ��һ����Ȩ�ء�������һЩ�Ի��ĳ����У���֪�������ĵ�ʱ��ͬ������ union ��һ��С��������ԵĽ���ͼ���Ż�Ч����<br><img src="file:///C:/Users/h00423957/Desktop/blog/wfst_base.PNG" alt="Alt text" title="WFST��������ͼ"><br><img src="file:///C:/Users/h00423957/Desktop/blog/wfst_union.PNG" alt="Alt text" title="WFST union����"><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fstunion a.fst b.fst out.fst</span><br></pre></td></tr></table></figure></p>
+<h3 id="Concatenation-����"><a href="#Concatenation-����" class="headerlink" title="Concatenation ����"></a>Concatenation ����</h3><p>Concatenation �������ڽ���� WFST ������һ�� WFST��ʵ���л�û��ô�õ�����<br><img src="file:///C:/Users/h00423957/Desktop/blog/wfst_union.PNG" alt="Alt text" title="WFST Concatenation����"><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fstconcat a.fst b.fst out.fst</span><br></pre></td></tr></table></figure></p>
+<h3 id="Determinization-����"><a href="#Determinization-����" class="headerlink" title="Determinization ����"></a>Determinization ����</h3><p>Determinization �������Ǳ�֤����ÿһ���ڵ㣬Ҳ����ÿһ��״̬������ת�Ʊ������ĳһ����ֻ��Ψһ��һ���ߡ��������ĺô�������������Ч�ʵ�������һ������ʶ��Ľ���ͼ����Ҫ������Ӧ���Ż���<br><img src="file:///C:/Users/h00423957/Desktop/blog/wfst_determinization.PNG" alt="Alt text" title="WFST Determinization����"><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fstdeterminize a.fst out.fst</span><br></pre></td></tr></table></figure></p>
+<h3 id="Weight-pushing-����"><a href="#Weight-pushing-����" class="headerlink" title="Weight pushing ����"></a>Weight pushing ����</h3><p>Weight pushing �Ὣ WFST �еĸ���·����Ȩ�ؾ�����������������ʼ״̬��Ҳ���Զ�����������ƵĲ�����Ҳ����ϣ��������������������ĺô����Ǻ��ڽ����ʱ���ܹ������ɾ��һЩ��ʧ�����·�������ڽ���ʱ���õ��� viterbi beam search�����ֽ�Ȩ����ǰ�Ƶ������ܹ��Ż������ٶȡ�<br><img src="file:///C:/Users/h00423957/Desktop/blog/wfst_wp.PNG" alt="Alt text" title="WFST Concatenation����"><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fstpush a.fst out.fst</span><br></pre></td></tr></table></figure></p>
+<h3 id="Minimazation-����"><a href="#Minimazation-����" class="headerlink" title="Minimazation ����"></a>Minimazation ����</h3><p>Minimazation �Ὣ WFST �еĵ�Ŀ���ǽ� WFST �е�״̬��Ŀ������С��һ����Ҫ��Determinization �Լ� Weight pushing ֮����С�ͬ����Ϊ���Ż�����ͼ��״̬��Ŀ�ٵĻ����洢�ռ��Լ������ٶ�Ҳ������Ӧ��������<br><img src="file:///C:/Users/h00423957/Desktop/blog/wfst_minimazation.PNG" alt="Alt text" title="WFST Concatenation����"><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fstminimize in.fst out.fst</span><br></pre></td></tr></table></figure></p>
+<h3 id="RmEpsilon-����"><a href="#RmEpsilon-����" class="headerlink" title="RmEpsilon ����"></a>RmEpsilon ����</h3><p>RmEpsilon ����ɾ�� WFST ��һЩ����Ҫ�ıߣ�ͨ��������������� eps �ıߡ�������ʶ�����ͼ�У����ڴ��� disambig ����Ҳ���ǻ��кܶ� “#” ���룬�������Щ������Ŷ��ᱻ�滻Ϊ “eps”������һ�������Ż���Ҳ�������Ӧ��ɾ�� eps �Ĳ�����<br><img src="file:///C:/Users/h00423957/Desktop/blog/wfst_rmeps.PNG" alt="Alt text" title="WFST Concatenation����"><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fstrmepsilon in.fst out.fst</span><br></pre></td></tr></table></figure></p>
+<h3 id="��������"><a href="#��������" class="headerlink" title="��������"></a>��������</h3><p>WFST ��һЩ��������������Projection �������Խ� WFST ���һ�� WFSA��ֻ�������롣Invertion �������Խ� WFST ������������е��á�Replace�������Խ� WFST �е�ĳһ�����滻����һ�� WFST�������ʵ�� class-based ������ģ�Ͱ����ܴ󡣵�ȻҲ����һЩ�����Ĳ���������Ͳ�һһ�����ˡ�</p>
+<p><strong>ע</strong>�����ڱȽ��������ϵ�ͼ���Բ�ͬ�������У����԰뻷����û��ͳһ��</p>
+<ol>
+<li><a href="http://www.gavo.t.u-tokyo.ac.jp/~novakj/wfst-algorithms.pdf" target="_blank" rel="noopener">WFST�ο�����</a></li>
+<li>[openfst ����] (<a href="http://www.openfst.org/twiki/bin/view/FST/" target="_blank" rel="noopener">http://www.openfst.org/twiki/bin/view/FST/</a>)</li>
+<li>Speech Recognition Algorithms Using Weighted Finite-State Transducers</li>
+</ol>
+
+        
+      </div>
+      
+      
+      
+    </div>
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/sailisanke.jpg"
+                alt="yjhuang" />
+            
+              <p class="site-author-name" itemprop="name">yjhuang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#��E����״̬��-WFST-���"><span class="nav-number">1.</span> <span class="nav-text">��Ȩ����״̬�� WFST ���</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#��E����״̬��"><span class="nav-number">1.1.</span> <span class="nav-text">��Ȩ����״̬��</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WFST-�뻷����"><span class="nav-number">1.2.</span> <span class="nav-text">WFST �뻷����</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WFST-��������"><span class="nav-number">1.3.</span> <span class="nav-text">WFST ��������</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Compose����"><span class="nav-number">1.3.1.</span> <span class="nav-text">Compose����</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Union-����"><span class="nav-number">1.3.2.</span> <span class="nav-text">Union ����</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Concatenation-����"><span class="nav-number">1.3.3.</span> <span class="nav-text">Concatenation ����</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Determinization-����"><span class="nav-number">1.3.4.</span> <span class="nav-text">Determinization ����</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Weight-pushing-����"><span class="nav-number">1.3.5.</span> <span class="nav-text">Weight pushing ����</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Minimazation-����"><span class="nav-number">1.3.6.</span> <span class="nav-text">Minimazation ����</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RmEpsilon-����"><span class="nav-number">1.3.7.</span> <span class="nav-text">RmEpsilon ����</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#��������"><span class="nav-number">1.3.8.</span> <span class="nav-text">��������</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yjhuang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
