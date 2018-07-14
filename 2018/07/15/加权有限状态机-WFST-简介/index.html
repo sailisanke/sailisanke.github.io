@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="加权有限状态机 WFST 简介加权有限状态机加权有限状态机简称 WFST (Weighted Finite-State Transducer)。在介绍 WFST 之前，我们需要先简单介绍一下如下这几个东西：Finite-State Acceptor (FSA)，Weighted Finite-State Acceptor (WFSA)，Finite-State Transducer (FST)。他">
+<meta property="og:type" content="article">
+<meta property="og:title" content="加权有限状态机 WFST 简介">
+<meta property="og:url" content="http://yoursite.com/2018/07/15/加权有限状态机-WFST-简介/index.html">
+<meta property="og:site_name" content="YJ&#39;s BLOG">
+<meta property="og:description" content="加权有限状态机 WFST 简介加权有限状态机加权有限状态机简称 WFST (Weighted Finite-State Transducer)。在介绍 WFST 之前，我们需要先简单介绍一下如下这几个东西：Finite-State Acceptor (FSA)，Weighted Finite-State Acceptor (WFSA)，Finite-State Transducer (FST)。他">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_all.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_8_element.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_semir.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_semir1.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_semir2.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_compose.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_base.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_union.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_union.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_determinization.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_wp.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_minimazation.PNG">
+<meta property="og:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_rmeps.PNG">
+<meta property="og:updated_time" content="2018-07-14T16:35:28.711Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="加权有限状态机 WFST 简介">
+<meta name="twitter:description" content="加权有限状态机 WFST 简介加权有限状态机加权有限状态机简称 WFST (Weighted Finite-State Transducer)。在介绍 WFST 之前，我们需要先简单介绍一下如下这几个东西：Finite-State Acceptor (FSA)，Weighted Finite-State Acceptor (WFSA)，Finite-State Transducer (FST)。他">
+<meta name="twitter:image" content="file:///C:/Users/h00423957/Desktop/blog/wfst_all.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/15/加权有限状态机-WFST-简介/"/>
+
+
+
+
+
+  <title>加权有限状态机 WFST 简介 | YJ's BLOG</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">YJ's BLOG</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/15/加权有限状态机-WFST-简介/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yjhuang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sailisanke.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YJ's BLOG">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">加权有限状态机 WFST 简介</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-15T00:34:23+08:00">
+                2018-07-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="加权有限状态机-WFST-简介"><a href="#加权有限状态机-WFST-简介" class="headerlink" title="加权有限状态机 WFST 简介"></a>加权有限状态机 WFST 简介</h1><h2 id="加权有限状态机"><a href="#加权有限状态机" class="headerlink" title="加权有限状态机"></a>加权有限状态机</h2><p>加权有限状态机简称 WFST (Weighted Finite-State Transducer)。在介绍 WFST 之前，我们需要先简单介绍一下如下这几个东西：Finite-State Acceptor (FSA)，Weighted Finite-State Acceptor (WFSA)，Finite-State Transducer (FST)。<br>他们都是有向图，不同的是节点之间的边上存在的元素不一样。如下图所示，FSA 的边上仅仅只有接收元素，也就是输入，WFSA 与之相比边上多了一个权重系数，FST 相比于 FSA 不仅有输入还有输出，而 WFST 则比较完整，在边上有输入输出以及对应的转换权重。<br><img src="file:///C:/Users/h00423957/Desktop/blog/wfst_all.PNG" alt="Alt text" title="WFST的来源"><br>简单来讲 FSA 可以用来判断一个序列是否被其接收，比如编程语言中的语法是否合理。上图 (a) 中序列 <em>acd</em> 是一个可以被接受的序列， 而 <em>ace</em> 则不是。WFSA 由于多了一个权重系数，他可以用来评价各种接收序列中损失最小的序列，如 (c) 中<em>ace</em>就可以认为是能够<br>被接收的所有序列中损失最小的序列，损失为2.2。FST 边上有输入与输出，他可以解决对应合法输入的输出是什么，如 (b) 中序列 <em>accd</em> 对应的输出为 <em>zyxw</em>。WSFT 可以用于对给定输入找到其最佳的输出。</p>
+<p> 一个完整的 WFST 由八个元素组成，输入，输出，状态，初始状态，结束状态，转移关系，初始权重，结束权重。上图d中的各个元素如下所示。<br> <img src="file:///C:/Users/h00423957/Desktop/blog/wfst_8_element.PNG" alt="Alt text" title="WFST组成元素"></p>
+<h2 id="WFST-半环理论"><a href="#WFST-半环理论" class="headerlink" title="WFST 半环理论"></a>WFST 半环理论</h2><p> WFST 是基于半环理论的，一个半环代数结构可以被定义为：<br> <img src="file:///C:/Users/h00423957/Desktop/blog/wfst_semir.PNG" alt="Alt text" title="WFST半环理论"><br> 它主要包含元素集合K，两种基本操作以及两个基本元素，需要满足如下定理。这其实跟我们学的代数非常像，加法跟乘法就是基本操作，而0与1可以视作基本元素，需要满足的定理就如同加法乘法的结合律交换律等<br> <img src="file:///C:/Users/h00423957/Desktop/blog/wfst_semir1.PNG" alt="Alt text" title="WFST半环理论"><br> 半环中的元素可以有不同的定义，在语音识别领域通常使用的是log半环，因为它将乘法转成了加法操作，这有助于计算机的运算。<br> <img src="file:///C:/Users/h00423957/Desktop/blog/wfst_semir2.PNG" alt="Alt text" title="WFST半环理论"></p>
+<h2 id="WFST-基本操作"><a href="#WFST-基本操作" class="headerlink" title="WFST 基本操作"></a>WFST 基本操作</h2><p> WFST 的实现目前比较出名的有 openfst，以下所有的操作就都可以基于 openfst 这个库实现</p>
+<h3 id="Compose操作"><a href="#Compose操作" class="headerlink" title="Compose操作"></a>Compose操作</h3><p> Compose操作算是语音识别领域比较重要的操作，整个解码图HCLG(后续会进行介绍)基本上都是基于这个操作展开的，他可以将不同层级的 WFST 图组合到一起，也就是将前一个 WFST 的输出与后一个 WFST 的输入做合并。<br> 比如前一个 WFST 中有一条 A 映射到 B 的边，后一个中存在一个将 B 映射到 C 的边，那么合并之后就会产生一个将 A 映射到 C 的边，权重的运算按半环中的乘法进行操作。这里只是介绍了比较基础的一种 compose 方式。<br> 当前一个 WFST 的输出或者后一个 WFST 的输入存在eps时，情况会比较复杂，这里不进一步展开。<br> compose操作之后就可以形成一个解码图完成从 A 到 C 的映射。下图便是一个compose的例子，此处计算采用的是Probability半环。<br> <img src="file:///C:/Users/h00423957/Desktop/blog/wfst_compose.PNG" alt="Alt text" title="WFSTcompose操作"><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fstcompose a.fst b.fst out.fst</span><br></pre></td></tr></table></figure></p>
+<h3 id="Union-操作"><a href="#Union-操作" class="headerlink" title="Union 操作"></a>Union 操作</h3><p>Union 操作用于将多个 WFST 并联成一个 WFST，如下图所示。这个操作在语音识别中其实是一个比较有用的操作，比如当存在多个解码图 WFST，他们可能是针对不同的场景构建，在使用的时候我们可能需要有所侧重。比如在一个音乐的应用中，<br>可能我们想主要使用基于音乐语料构建的 WFST，但是用户也可能会说一些其他的话，这个时候我们可以利用 union 操作给两个解码图不一样的权重。此外在一些对话的场景中，当知道上下文的时候同样可以 union 上一个小的有针对性的解码图来优化效果。<br><img src="file:///C:/Users/h00423957/Desktop/blog/wfst_base.PNG" alt="Alt text" title="WFST操作基础图"><br><img src="file:///C:/Users/h00423957/Desktop/blog/wfst_union.PNG" alt="Alt text" title="WFST union操作"><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fstunion a.fst b.fst out.fst</span><br></pre></td></tr></table></figure></p>
+<h3 id="Concatenation-操作"><a href="#Concatenation-操作" class="headerlink" title="Concatenation 操作"></a>Concatenation 操作</h3><p>Concatenation 操作用于将多个 WFST 串联成一个 WFST，实际中还没怎么用到过。<br><img src="file:///C:/Users/h00423957/Desktop/blog/wfst_union.PNG" alt="Alt text" title="WFST Concatenation操作"><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fstconcat a.fst b.fst out.fst</span><br></pre></td></tr></table></figure></p>
+<h3 id="Determinization-操作"><a href="#Determinization-操作" class="headerlink" title="Determinization 操作"></a>Determinization 操作</h3><p>Determinization 的作用是保证对于每一个节点，也就是每一个状态，它的转移边中针对某一输入只有唯一的一条边。这样做的好处是有利于搜索效率的提升。一般语音识别的解码图都需要进行相应的优化。<br><img src="file:///C:/Users/h00423957/Desktop/blog/wfst_determinization.PNG" alt="Alt text" title="WFST Determinization操作"><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fstdeterminize a.fst out.fst</span><br></pre></td></tr></table></figure></p>
+<h3 id="Weight-pushing-操作"><a href="#Weight-pushing-操作" class="headerlink" title="Weight pushing 操作"></a>Weight pushing 操作</h3><p>Weight pushing 会将 WFST 中的各条路径上权重尽量调整到靠近到初始状态（也可以对输出进行类似的操作，也就是希望尽早输出），这样做的好处就是后期解码的时候，能够尽早的删除一些损失过大的路径，由于解码时采用的是 viterbi beam search，这种将权重往前移的做法能够优化解码速度。<br><img src="file:///C:/Users/h00423957/Desktop/blog/wfst_wp.PNG" alt="Alt text" title="WFST Concatenation操作"><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fstpush a.fst out.fst</span><br></pre></td></tr></table></figure></p>
+<h3 id="Minimazation-操作"><a href="#Minimazation-操作" class="headerlink" title="Minimazation 操作"></a>Minimazation 操作</h3><p>Minimazation 会将 WFST 中的的目的是将 WFST 中的状态数目减到最小。一般需要在Determinization 以及 Weight pushing 之后进行。同样是为了优化解码图，状态数目少的话，存储空间以及解码速度也会有相应的提升。<br><img src="file:///C:/Users/h00423957/Desktop/blog/wfst_minimazation.PNG" alt="Alt text" title="WFST Concatenation操作"><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fstminimize in.fst out.fst</span><br></pre></td></tr></table></figure></p>
+<h3 id="RmEpsilon-操作"><a href="#RmEpsilon-操作" class="headerlink" title="RmEpsilon 操作"></a>RmEpsilon 操作</h3><p>RmEpsilon 将会删除 WFST 中一些不必要的边，通常是输入输出都是 eps 的边。在语音识别解码图中，由于存在 disambig 现象，也就是会有很多 “#” 输入，在最后这些输入符号都会被替换为 “eps”，所以一般最后的优化中也会进行相应的删除 eps 的操作。<br><img src="file:///C:/Users/h00423957/Desktop/blog/wfst_rmeps.PNG" alt="Alt text" title="WFST Concatenation操作"><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fstrmepsilon in.fst out.fst</span><br></pre></td></tr></table></figure></p>
+<h3 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h3><p>WFST 的一些其他操作包括：Projection 操作可以将 WFST 变成一个 WFSA，只保留输入。Invertion 操作可以将 WFST 的输入输出进行倒置。Replace操作可以将 WFST 中的某一条边替换成另一个 WFST，这对于实现 class-based 的语言模型帮助很大。当然也还有一些其他的操作，这里就不一一介绍了。</p>
+<p><strong>注</strong>：由于比较懒，以上的图来自不同的资料中，所以半环代数没有统一。</p>
+<ol>
+<li><a href="http://www.gavo.t.u-tokyo.ac.jp/~novakj/wfst-algorithms.pdf" target="_blank" rel="noopener">WFST参考资料</a></li>
+<li>[openfst 官网] (<a href="http://www.openfst.org/twiki/bin/view/FST/" target="_blank" rel="noopener">http://www.openfst.org/twiki/bin/view/FST/</a>)</li>
+<li>Speech Recognition Algorithms Using Weighted Finite-State Transducers</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/17/深度学习中的优化方法/" rel="next" title="深度学习中的优化方法">
+                <i class="fa fa-chevron-left"></i> 深度学习中的优化方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/sailisanke.jpg"
+                alt="yjhuang" />
+            
+              <p class="site-author-name" itemprop="name">yjhuang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#加权有限状态机-WFST-简介"><span class="nav-number">1.</span> <span class="nav-text">加权有限状态机 WFST 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#加权有限状态机"><span class="nav-number">1.1.</span> <span class="nav-text">加权有限状态机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WFST-半环理论"><span class="nav-number">1.2.</span> <span class="nav-text">WFST 半环理论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WFST-基本操作"><span class="nav-number">1.3.</span> <span class="nav-text">WFST 基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Compose操作"><span class="nav-number">1.3.1.</span> <span class="nav-text">Compose操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Union-操作"><span class="nav-number">1.3.2.</span> <span class="nav-text">Union 操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Concatenation-操作"><span class="nav-number">1.3.3.</span> <span class="nav-text">Concatenation 操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Determinization-操作"><span class="nav-number">1.3.4.</span> <span class="nav-text">Determinization 操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Weight-pushing-操作"><span class="nav-number">1.3.5.</span> <span class="nav-text">Weight pushing 操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Minimazation-操作"><span class="nav-number">1.3.6.</span> <span class="nav-text">Minimazation 操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RmEpsilon-操作"><span class="nav-number">1.3.7.</span> <span class="nav-text">RmEpsilon 操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他操作"><span class="nav-number">1.3.8.</span> <span class="nav-text">其他操作</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yjhuang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
