@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="YJ&#39;s BLOG">
 <meta property="og:description" content="高斯混合模型 GMM 是最最重要也是最常见的混合模型，它的各个组成成分均是高斯分布。混合高斯概率分布可以表示为下式。$$ p(x) = \sum_{m=1}^{M}P(m)p(x|m) = \sum_{m=1}^{M}P(m)N(x;\mu _{m},\sigma _{m}^{2}) $$其中，M 为混合高斯模型的成分数量，混合高斯模型可以认为是各个高斯分布的加权和。$\mu_m$ 是各个子成分高">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-08T14:10:11.247Z">
+<meta property="og:updated_time" content="2018-08-08T14:15:51.491Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="混合高斯模型">
 <meta name="twitter:description" content="高斯混合模型 GMM 是最最重要也是最常见的混合模型，它的各个组成成分均是高斯分布。混合高斯概率分布可以表示为下式。$$ p(x) = \sum_{m=1}^{M}P(m)p(x|m) = \sum_{m=1}^{M}P(m)N(x;\mu _{m},\sigma _{m}^{2}) $$其中，M 为混合高斯模型的成分数量，混合高斯模型可以认为是各个高斯分布的加权和。$\mu_m$ 是各个子成分高">
@@ -369,10 +369,10 @@
 
       
         <p>高斯混合模型 GMM 是最最重要也是最常见的混合模型，它的各个组成成分均是高斯分布。混合高斯概率分布可以表示为下式。<br>$$ p(x) = \sum_{m=1}^{M}P(m)p(x|m) = \sum_{m=1}^{M}P(m)N(x;\mu _{m},\sigma _{m}^{2}) $$<br>其中，M 为混合高斯模型的成分数量，混合高斯模型可以认为是各个高斯分布的加权和。$\mu_m$ 是各个子成分高斯分布的均值，$\sigma _m^2$为对应各个子成分高斯分布的协方差。假定训练数据为$ X=x_1,x_2,x_3,x_4…x_T $。为了便于理解我们首先在假定知道每个数据点是由哪一个具体的子成分高斯分布生成，定义变量$z_{mt}$，当数据$x_1$是由第m个高斯分布产生时，其值为1，否则为0，此时我们可以知道<br>由第 m 个高斯模型产生的数据个数$ N_{m} $如下：<br>$$ N_{m}=\sum_{t=1}^{T}z_{mt} $$<br>进而高斯混合模型中的各个高斯分布的均值$\mu_m$以及对应的协方差$\sigma_m^2$可按如下公式计算。</p>
-<p>$$\hat{\mu}<em>{m} = \frac{\sum</em>{t=1}^{T}z_{mt}x_{t}}{N_{m}}$$</p>
+<p>$$ \hat{\mu}<em>{m} = \frac{\sum</em>{t=1}^{T}z_{mt}x_{t}}{N_{m}} $$</p>
 <p>$$\hat{\sigma}<em>{m}^{2} = \frac{\sum</em>{t=1}^{T}z_{mt}\left | x_{t}-\hat{\mu}<em>{m}^{2} \right |}{N</em>{m}}$$</p>
 <p>$$ \hat{P}(m) = \frac{1}{T}\sum_{t=1}^{T}z_{mt} = \frac{N_m}{T} $$</p>
-<p>和i和i这样便可以很顺利的求出 GMM 模型中的各个参数。然而需要面对的一个问题是我们并不知道训练的数据点是由哪一个成分（高斯分布）生成的。一个想法是使用后验概率$P(m|x)$，它表示某一个高斯分布m生成了数据点x的概率，一般称之为 component occupation<br>probabilities 或者 responsibilities。</p>
+<p>和和i这样便可以很顺利的求出 GMM 模型中的各个参数。然而需要面对的一个问题是我们并不知道训练的数据点是由哪一个成分（高斯分布）生成的。一个想法是使用后验概率$P(m|x)$，它表示某一个高斯分布m生成了数据点x的概率，一般称之为 component occupation probabilities 或者 responsibilities。</p>
 
       
     </div>
