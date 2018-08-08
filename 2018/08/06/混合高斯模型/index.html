@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="YJ&#39;s BLOG">
 <meta property="og:description" content="高斯混合模型 GMM 是最最重要也是最常见的混合模型，它的各个组成成分均是高斯分布。混合高斯概率分布可以表示为下式。$$ p(x) = \sum_{m=1}^{M}P(m)p(x|m) = \sum_{m=1}^{M}P(m)N(x;\mu _{m},\sigma _{m}^{2}) $$其中，M 为混合高斯模型的成分数量，混合高斯模型可以认为是各个高斯分布的加权和。$\mu_m$ 是各个子成分高">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-08T16:09:57.912Z">
+<meta property="og:updated_time" content="2018-08-08T16:10:30.749Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="混合高斯模型">
 <meta name="twitter:description" content="高斯混合模型 GMM 是最最重要也是最常见的混合模型，它的各个组成成分均是高斯分布。混合高斯概率分布可以表示为下式。$$ p(x) = \sum_{m=1}^{M}P(m)p(x|m) = \sum_{m=1}^{M}P(m)N(x;\mu _{m},\sigma _{m}^{2}) $$其中，M 为混合高斯模型的成分数量，混合高斯模型可以认为是各个高斯分布的加权和。$\mu_m$ 是各个子成分高">
@@ -372,8 +372,9 @@
 <ol>
 <li>根据现有模型的参数（均值，方差以及混合权重）计算 component occupation probabilities P(m|x)(称之为E-step)</li>
 <li>根据1中获得的component occupation probabilities 计算混合高斯模型的参数(称之为M-step)</li>
-<li>不断循环执行上述步骤，直到达到终止条件<br>EM算法只能求取局部最优值，无法获取全局的最优解。其应用也比较多，比如图像背景识别，语音识别(在传统语音识别方法其被用于对HMM的观测该类进行建模)等。</li>
+<li>不断循环执行上述步骤，直到达到终止条件</li>
 </ol>
+<p>EM算法只能求取局部最优值，无法获取全局的最优解。其应用也比较多，比如图像背景识别，语音识别(在传统语音识别方法其被用于对HMM的观测该类进行建模)等。</p>
 
       
     </div>
