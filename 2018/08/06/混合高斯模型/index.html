@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="YJ&#39;s BLOG">
 <meta property="og:description" content="高斯混合模型 GMM 是最最重要也是最常见的混合模型，它的各个组成成分均是高斯分布。混合高斯概率分布可以表示为下式。$$ p(x) = \sum_{m=1}^{M}P(m)p(x|m) = \sum_{m=1}^{M}P(m)N(x;\mu _{m},\sigma _{m}^{2}) $$其中，M 为混合高斯模型的成分数量，混合高斯模型可以认为是各个高斯分布的加权和。$\mu_m$ 是各个子成分高">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-08T15:47:10.875Z">
+<meta property="og:updated_time" content="2018-08-08T16:09:57.912Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="混合高斯模型">
 <meta name="twitter:description" content="高斯混合模型 GMM 是最最重要也是最常见的混合模型，它的各个组成成分均是高斯分布。混合高斯概率分布可以表示为下式。$$ p(x) = \sum_{m=1}^{M}P(m)p(x|m) = \sum_{m=1}^{M}P(m)N(x;\mu _{m},\sigma _{m}^{2}) $$其中，M 为混合高斯模型的成分数量，混合高斯模型可以认为是各个高斯分布的加权和。$\mu_m$ 是各个子成分高">
@@ -368,7 +368,12 @@
       
 
       
-        <p>高斯混合模型 GMM 是最最重要也是最常见的混合模型，它的各个组成成分均是高斯分布。混合高斯概率分布可以表示为下式。<br>$$ p(x) = \sum_{m=1}^{M}P(m)p(x|m) = \sum_{m=1}^{M}P(m)N(x;\mu _{m},\sigma _{m}^{2}) $$<br>其中，M 为混合高斯模型的成分数量，混合高斯模型可以认为是各个高斯分布的加权和。$\mu_m$ 是各个子成分高斯分布的均值，$\sigma _m^2$为对应各个子成分高斯分布的协方差。假定训练数据为$ X=x_1,x_2,x_3,x_4…x_T $。为了便于理解我们首先在假定知道每个数据点是由哪一个具体的子成分高斯分布生成，定义变量$z_{mt}$，当数据$x_1$是由第m个高斯分布产生时，其值为1，否则为0，此时我们可以知道<br>由第 m 个高斯模型产生的数据个数$ N_{m} $如下：<br>$$ N_{m}=\sum_{t=1}^{T}z_{mt} $$<br>进而高斯混合模型中的各个高斯分布的均值$\mu_m$以及对应的协方差$\sigma_m^2$可按如下公式计算(实际上可以按照最大似然概率证明按照如下方式计算得到模型可以使训练数据出现的概率最大)。<br>$$ \hat{\mu}_{m} = \frac{\sum_{t=1}^{T}z_{mt}x_{t}}{N_{m}} $$<br>$$ \hat{\sigma}_{m}^{2} = \frac{\sum_{t=1}^{T}z_{mt}\left \| x_{t}-\hat{\mu}_{m}^{2} \right \|}{N_{m}} $$<br>$$ \hat{P}(m) = \frac{1}{T}\sum_{t=1}^{T}z_{mt} = \frac{N_m}{T} $$<br>这样便可以很顺利的求出 GMM 模型中的各个参数。然而需要面对的一个问题是我们并不知道训练的数据点是由哪一个成分（高斯分布）生成的。一个想法是使用后验概率$P(m|x)$，它表示某一个高斯分布m生成了数据点x的概率，一般称之为 component occupation probabilities 或者 responsibilities，他们子成分高斯分布的$P(m|x)$之和为1。在引入 responsibilities 的情况下，我们可以参考上述$N_m$的求法计算$N_{m}^{*}$。<br>$$ N_{m}^{*}=\sum_{t=1}^{T}P(m|x_{t}) $$<br>进而可以估计 GMM 的各个参数。<br>$$ \hat{\mu}_{m} = \frac{\sum_{t=1}^{T}P(m|x_t)x_{t}}{N_{m}^{*}} $$<br>$$ \hat{\sigma}_{m}^{2} = \frac{\sum_{t=1}^{T}P(m|x_t)\left \| x_{t}-\hat{\mu}_{m}^{2} \right \|}{N_{m}^{*}} $$<br>$$ \hat{P}(m) = \frac{1}{T}\sum_{t=1}^{T}P(m|x_t) = \frac{N_m^{*}}{T} $$<br>另一方面由贝叶斯公式可知：<br>$$ P(m|x) = \frac{p(x|m)P(m)}{p(x)} = \frac{p(x|m)P(m)}{\sum_{m^{‘}=1}^{M}p(x|m^{‘})P(m^{‘})} $$<br>这里就会有一个矛盾的事情出现，p(m|x) 的计算依赖于p(x|m)和P(m)，而p(x|m)和P(m)的求取过程中又会用到p(m|x)，这似乎形成了一个死循环。</p>
+        <p>高斯混合模型 GMM 是最最重要也是最常见的混合模型，它的各个组成成分均是高斯分布。混合高斯概率分布可以表示为下式。<br>$$ p(x) = \sum_{m=1}^{M}P(m)p(x|m) = \sum_{m=1}^{M}P(m)N(x;\mu _{m},\sigma _{m}^{2}) $$<br>其中，M 为混合高斯模型的成分数量，混合高斯模型可以认为是各个高斯分布的加权和。$\mu_m$ 是各个子成分高斯分布的均值，$\sigma _m^2$为对应各个子成分高斯分布的协方差。假定训练数据为$ X=x_1,x_2,x_3,x_4…x_T $。为了便于理解我们首先在假定知道每个数据点是由哪一个具体的子成分高斯分布生成，定义变量$z_{mt}$，当数据$x_1$是由第m个高斯分布产生时，其值为1，否则为0，此时我们可以知道<br>由第 m 个高斯模型产生的数据个数$ N_{m} $如下：<br>$$ N_{m}=\sum_{t=1}^{T}z_{mt} $$<br>进而高斯混合模型中的各个高斯分布的均值$\mu_m$以及对应的协方差$\sigma_m^2$可按如下公式计算。<br>$$ \hat{\mu}_{m} = \frac{\sum_{t=1}^{T}z_{mt}x_{t}}{N_{m}} $$<br>$$ \hat{\sigma}_{m}^{2} = \frac{\sum_{t=1}^{T}z_{mt}\left \| x_{t}-\hat{\mu}_{m}^{2} \right \|}{N_{m}} $$<br>$$ \hat{P}(m) = \frac{1}{T}\sum_{t=1}^{T}z_{mt} = \frac{N_m}{T} $$<br>这样便可以很顺利的求出 GMM 模型中的各个参数。然而需要面对的一个问题是我们并不知道训练的数据点是由哪一个成分（高斯分布）生成的。一个想法是使用后验概率$P(m|x)$，它表示某一个高斯分布m生成了数据点x的概率，一般称之为 component occupation probabilities 或者 responsibilities，他们子成分高斯分布的$P(m|x)$之和为1。在引入 responsibilities 的情况下，我们可以参考上述$N_m$的求法计算$N_{m}^{*}$。<br>$$ N_{m}^{*}=\sum_{t=1}^{T}P(m|x_{t}) $$<br>进而可以估计 GMM 的各个参数。<br>$$ \hat{\mu}_{m} = \frac{\sum_{t=1}^{T}P(m|x_t)x_{t}}{N_{m}^{*}} $$<br>$$ \hat{\sigma}_{m}^{2} = \frac{\sum_{t=1}^{T}P(m|x_t)\left \| x_{t}-\hat{\mu}_{m}^{2} \right \|}{N_{m}^{*}} $$<br>$$ \hat{P}(m) = \frac{1}{T}\sum_{t=1}^{T}P(m|x_t) = \frac{N_m^{*}}{T} $$<br>实际上可以按照最大似然概率证明按照如下方式计算得到模型参数可以使训练数据出现的概率最大，结合拉格朗日方法也可能对P(m)的计算做出严谨的数学证明，这里只是按照便于理解的方式进行了简单的说明。另一方面由贝叶斯公式可知：<br>$$ P(m|x) = \frac{p(x|m)P(m)}{p(x)} = \frac{p(x|m)P(m)}{\sum_{m^{‘}=1}^{M}p(x|m^{‘})P(m^{‘})} $$<br>这里就会有一个矛盾的事情出现，p(m|x) 的计算依赖于p(x|m)和P(m)，而p(x|m)和P(m)的求取过程中又会用到p(m|x)，这似乎形成了一个死循环。这个时候就需要用到EM算法，可以先初始化一个值，然后在此基础上进行迭代求解。GMM的初始化也有挺多学问，这里以一个简单的例子进行说明，比如使用kmens先对数据进行聚类，获取各个子成分高斯分布的均值和方差分布，然后按照如下步骤进行迭代。</p>
+<ol>
+<li>根据现有模型的参数（均值，方差以及混合权重）计算 component occupation probabilities P(m|x)(称之为E-step)</li>
+<li>根据1中获得的component occupation probabilities 计算混合高斯模型的参数(称之为M-step)</li>
+<li>不断循环执行上述步骤，直到达到终止条件<br>EM算法只能求取局部最优值，无法获取全局的最优解。其应用也比较多，比如图像背景识别，语音识别(在传统语音识别方法其被用于对HMM的观测该类进行建模)等。</li>
+</ol>
 
       
     </div>
