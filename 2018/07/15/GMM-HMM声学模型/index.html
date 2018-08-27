@@ -79,14 +79,17 @@
 
 
 
+<meta name="description" content="语音识别原理简介语音识别的目的便是从语音数据中解码出其表达的文本信息，也就是将语音转变成文本的过程。不过一般不会直接处理语音信号，而是对原始语音信号进行特征提取之后再进行建模求解。假定语音信号特征序列为$X$，对应的文本序列为$W$，那么语音识别需要优化的问题如下：$$ W^{*} = \underset{W}{argmax}P(W|X) $$由贝叶斯定理可知：$$ P(W|X) = \frac{">
 <meta property="og:type" content="article">
-<meta property="og:title" content="传统语音识别原理">
-<meta property="og:url" content="http://yoursite.com/2018/07/15/传统语音识别原理/index.html">
+<meta property="og:title" content="GMM-HMM声学模型">
+<meta property="og:url" content="http://yoursite.com/2018/07/15/GMM-HMM声学模型/index.html">
 <meta property="og:site_name" content="YJ&#39;s BLOG">
+<meta property="og:description" content="语音识别原理简介语音识别的目的便是从语音数据中解码出其表达的文本信息，也就是将语音转变成文本的过程。不过一般不会直接处理语音信号，而是对原始语音信号进行特征提取之后再进行建模求解。假定语音信号特征序列为$X$，对应的文本序列为$W$，那么语音识别需要优化的问题如下：$$ W^{*} = \underset{W}{argmax}P(W|X) $$由贝叶斯定理可知：$$ P(W|X) = \frac{">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-14T17:27:30.079Z">
+<meta property="og:updated_time" content="2018-08-27T15:49:07.090Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="传统语音识别原理">
+<meta name="twitter:title" content="GMM-HMM声学模型">
+<meta name="twitter:description" content="语音识别原理简介语音识别的目的便是从语音数据中解码出其表达的文本信息，也就是将语音转变成文本的过程。不过一般不会直接处理语音信号，而是对原始语音信号进行特征提取之后再进行建模求解。假定语音信号特征序列为$X$，对应的文本序列为$W$，那么语音识别需要优化的问题如下：$$ W^{*} = \underset{W}{argmax}P(W|X) $$由贝叶斯定理可知：$$ P(W|X) = \frac{">
 
 
 
@@ -116,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/07/15/传统语音识别原理/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/07/15/GMM-HMM声学模型/"/>
 
 
 
 
 
-  <title>传统语音识别原理 | YJ's BLOG</title>
+  <title>GMM-HMM声学模型 | YJ's BLOG</title>
   
 
 
@@ -259,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/15/传统语音识别原理/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/15/GMM-HMM声学模型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="yjhuang">
@@ -276,7 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">传统语音识别原理</h1>
+          <h1 class="post-title" itemprop="name headline">GMM-HMM声学模型</h1>
         
 
         <div class="post-meta">
@@ -331,7 +334,9 @@
       
 
       
-        
+        <h1 id="语音识别原理简介"><a href="#语音识别原理简介" class="headerlink" title="语音识别原理简介"></a>语音识别原理简介</h1><p>语音识别的目的便是从语音数据中解码出其表达的文本信息，也就是将语音转变成文本的过程。不过一般不会直接处理语音信号，而是对原始语音信号进行特征提取之后再进行建模求解。假定语音信号特征序列为$X$，对应的文本序列为$W$，那么语音识别需要优化的问题如下：<br>$$ W^{*} = \underset{W}{argmax}P(W|X) $$<br>由贝叶斯定理可知：<br>$$ P(W|X) = \frac{P(X|W)P(W)}{X} $$<br>故优化问题可以转换成下式：<br>$$ W^{*} = \underset{W}{argmax}P(X|W)P(W) $$<br>上式中$P(X|W)$称为声学模型，一般负责将语音特征识别成音素。而$P(W)$称之为语言模型，其作用为对给定的文本序列打分。本文的主要内容就是介绍一种非常经典常用的声学模型GMM-HMM声学模型。</p>
+<h1 id="GMM-HMM模型"><a href="#GMM-HMM模型" class="headerlink" title="GMM-HMM模型"></a>GMM-HMM模型</h1><p>## </p>
+
       
     </div>
     
@@ -419,8 +424,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -484,6 +498,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#语音识别原理简介"><span class="nav-number">1.</span> <span class="nav-text">语音识别原理简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GMM-HMM模型"><span class="nav-number">2.</span> <span class="nav-text">GMM-HMM模型</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
